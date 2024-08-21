@@ -18,5 +18,10 @@ lista_01.adicionarAlInicio("Hola")
 
 print("Lista: ", lista_01)      # Imprimir la lista
 
+# Prueba eliminar al incio
+print(lista_01.eliminarAlInicio())  # retorna true: El metodo está funcionando
+# Imprimir la lista con el elemeto eliminado
+print("Lista: ", lista_01)
+
 
 # NOTA: Adelantar adicionar al final.

@@ -22,6 +22,22 @@ class Lista:
     def __init__(self) -> None:
         self.inicial = None
 
+    # Eliminar al inicio de la lista
+    def eliminarAlInicio(self):
+        # Si la lista está vacía se retorna False
+        if self.inicial == None:
+            return False
+        # Si la lista tiene datos
+        self.inicial = self.inicial.siguiente
+        return True
+    
+    # Eliminar por información (Si el dato existe)
+    def eliminarPorInfo(self, dato):
+        # Si la lista está vacía 
+        if self.inicial == None:
+            return False
+        
+
     # Agregar elemento al inicio de la lista
     def adicionarAlInicio(self, dato):
         # Evaluar si la lista esta vacia
