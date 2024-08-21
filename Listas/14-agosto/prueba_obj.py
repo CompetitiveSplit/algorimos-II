@@ -15,13 +15,19 @@ lista_01 = Lista()      # Creación de la lista
 lista_01.adicionarAlInicio(1)       # Adicionar elementos a lista
 lista_01.adicionarAlInicio(3.5)
 lista_01.adicionarAlInicio("Hola")
+lista_01.adicionarAlInicio(10) 
+lista_01.adicionarAlInicio(6) 
+lista_01.adicionarAlInicio(4) 
 
 print("Lista: ", lista_01)      # Imprimir la lista
 
 # Prueba eliminar al incio
-print(lista_01.eliminarAlInicio())  # retorna true: El metodo está funcionando
+# print(lista_01.eliminarAlInicio())  # retorna true: El metodo está funcionando
 # Imprimir la lista con el elemeto eliminado
-print("Lista: ", lista_01)
+# print("Lista: ", lista_01)
 
+# Prueba eliminar por info
+print(lista_01.eliminarPorInfo("Hola"))
+print("Lista: ", lista_01)
 
 # NOTA: Adelantar adicionar al final.

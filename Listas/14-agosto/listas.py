@@ -33,10 +33,38 @@ class Lista:
     
     # Eliminar por información (Si el dato existe)
     def eliminarPorInfo(self, dato):
-        # Si la lista está vacía 
+    # Si la lista está vacía 
+        if self.inicial is None:
+            return False
+        # El dato se encuentra en la cabecera
+        if self.inicial.dato == dato:
+            self.eliminarAlInicio()
+            return True
+        # Buscar dato en la lista
+        nodo_previo = None
+        nodo_actual = self.inicial
+        while nodo_actual is not None and nodo_actual.dato != dato:
+            nodo_previo = nodo_actual
+            nodo_actual = nodo_actual.siguiente
+        # Dato no encontrado
+        if nodo_actual is None:
+            return False
+        # Dato encontrado
+        nodo_previo.siguiente = nodo_actual.siguiente
+        return True
+
+    # Inidicar si un dato esta en la lista
+    def buscar(self, dato):
+        # Lista vacía 
         if self.inicial == None:
             return False
-        
+        # Lista con datos
+        nodo_actual = self.inicial
+        while nodo_actual != None:
+            if nodo_actual.dato == dato:
+                return True # Encontrado
+            nodo_actual = nodo_actual.siguiente
+        return False # No encontrado
 
     # Agregar elemento al inicio de la lista
     def adicionarAlInicio(self, dato):
@@ -56,4 +84,5 @@ class Lista:
         while nodo_actual != None: 
             recorrido += str(nodo_actual) + " -> "
             nodo_actual = nodo_actual.siguiente
+        recorrido += "NULL" 
         return recorrido
