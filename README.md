@@ -8,3 +8,7 @@ Clase 21 de agosto: se hicieron modificaciones a _listas.py_:
     El método recorre la lista buscando el dato dato y cuando lo encuentra da un salto del nodo previo al nodo siguiente de donde esta el dato.
     ej: 1 -> 2 -> 3 -> 4 -> 5 -> NULL 
     si se va a borrar el dato 4, se hace un salto del nodo 3 al 5.
+
+
+TODO:
+* Revisar la implementacion del ultimo punto del taller.
