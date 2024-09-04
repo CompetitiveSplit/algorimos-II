@@ -1,191 +1,316 @@
-""" 
-    Características 
-    - Estructura de datos
-    - Unidimensional
-    - Dinámica (No requiere un valor previo, puede adaptarse al uso)
-    - Flexible
-    - Eficiente en uso de memoria
-    - Diseño para árboles y grafos
-"""
-# Clase nodo
-class Nodo:
-    def __init__(self, dato) -> None:
-        self.dato = dato 
+# Clase Nodo Simple
+class NodoSimple:
+    # Constructor
+    def __init__(self, dato):
+        self.dato = dato
         self.siguiente = None
-
-    # metodo STR
+    
+    # Str
     def __str__(self) -> str:
         return str(self.dato)
+    
+    # Eq
+    def __eq__(self, other):
+        if not isinstance(other, NodoSimple):
+            return False
+        return self.dato == other.dato
 
-# Clase lista
-class Lista:
+# Clase ListaSimple
+class ListaSimple:
+    # Constructor
     def __init__(self) -> None:
-        self.inicial = None
+        self.nodoInicial = None
 
-    # Eliminar al inicio de la lista
+    # Lista Vacia
+    def estaVacia(self):
+        return self.nodoInicial == None
+
+    # Adicionar al inicio
+    def adicionarAlInicio(self, dato_nuevo):
+        nodoNuevo = NodoSimple(dato_nuevo)
+        if self.estaVacia():
+            self.nodoInicial = nodoNuevo
+        else:
+            nodoNuevo.siguiente = self.nodoInicial
+            self.nodoInicial = nodoNuevo
+
+    # Eliminar al inicio
     def eliminarAlInicio(self):
-        # Si la lista está vacía se retorna False
-        if self.inicial == None:
-            return False
-        # Si la lista tiene datos
-        self.inicial = self.inicial.siguiente
-        return True
+        if self.estaVacia():
+            return None
+        else:
+            dato = self.nodoInicial.dato
+            self.nodoInicial = self.nodoInicial.siguiente
+            return dato
 
-    # Inidicar si un dato esta en la lista
-    def buscar(self, dato):
-        # Lista vacía 
-        if self.inicial == None:
+    # Buscar por dato
+    def buscar(self, dato_buscar):
+        if self.estaVacia():
             return False
-        # Lista con datos
-        nodo_actual = self.inicial
-        while nodo_actual != None:
-            if nodo_actual.dato == dato:
-                return True # Encontrado
-            nodo_actual = nodo_actual.siguiente
-        return False # No encontrado
+        else:
+            nodoActual = self.nodoInicial
+            while nodoActual != None:
+                if nodoActual.dato == dato_buscar:
+                    return True
+                nodoActual = nodoActual.siguiente
+            return False
 
-    # Eliminar por información (Si el dato existe)
-    def eliminarPorInfo(self, dato):
-    # Si la lista está vacía 
-        if self.inicial == None:
+    # Str
+    def __str__(self):
+        recorrido = ""
+        nodoActual = self.nodoInicial
+        while nodoActual != None:
+            recorrido += str(nodoActual.dato) + " -> "
+            nodoActual = nodoActual.siguiente
+        recorrido += "NULL"
+        return recorrido
+
+    # Eliminar por información
+    def eliminarInfo(self, dato_eliminar):
+        if self.estaVacia():
             return False
-        # El dato se encuentra en la cabecera
-        if self.inicial.dato == dato:
+        if self.nodoInicial.dato == dato_eliminar:
             self.eliminarAlInicio()
             return True
-        # Buscar dato en la lista
-        nodo_previo = None
-        nodo_actual = self.inicial
-        while nodo_actual != None and nodo_actual.dato != dato:
-            nodo_previo = nodo_actual
-            nodo_actual = nodo_actual.siguiente
-        # Dato no encontrado
-        if nodo_actual == None:
+        nodoPrevio = None
+        nodoActual = self.nodoInicial
+        while nodoActual != None and nodoActual.dato != dato_eliminar:
+            nodoPrevio = nodoActual
+            nodoActual = nodoActual.siguiente
+        if nodoActual == None:
             return False
-        # Dato encontrado
-        nodo_previo.siguiente = nodo_actual.siguiente
+        nodoPrevio.siguiente = nodoActual.siguiente
         return True
-    
-    # Agregar elemento al inicio de la lista
-    def adicionarAlInicio(self, dato):
-        # Evaluar si la lista esta vacia
-        if self.inicial == None: # La lista está vacia 
-            self.inicial = Nodo(dato)
-        else: 
-            # Si la lista tiene, al menos, un elemento
-            nodo_nuevo = Nodo(dato)     # Se crea una variable para almacenar el nuevo objeto (Un nuevo nodo)
-            nodo_nuevo.siguiente = self.inicial     
-            self.inicial = nodo_nuevo
-
-    # Recorrer la lista
-    def __str__(self) -> str:
-        recorrido = " "
-        nodo_actual = self.inicial
-        while nodo_actual != None: 
-            recorrido += str(nodo_actual) + " -> "
-            nodo_actual = nodo_actual.siguiente
-        recorrido += "NULL" 
-        return recorrido
-    
-
-# TALLER DE DISENO 1
 
     # Agregar al final de la lista
     def agregarAlFinal(self, dato):
-        nodo_actual = self.inicial
-        nodo_nuevo = Nodo(dato)     # Nodo nuevo
-        # Evaluar si la lista esta vacia
-        if self.inicial == None:
-            self.inicial = nodo_nuevo
+        nodoNuevo = NodoSimple(dato)  # Nodo nuevo
+        if self.estaVacia():
+            self.nodoInicial = nodoNuevo
         else:
-            nodo_actual = self.inicial
-        # Recorrer la lista
-            while nodo_actual.siguiente != None:
-                nodo_actual = nodo_actual.siguiente
-            nodo_actual.siguiente = nodo_nuevo     # enlazar el actual al siguiente
-            nodo_nuevo.siguiente = None     # Apuntar el ultimo a NULL, en este caso None
+            nodoActual = self.nodoInicial
+            while nodoActual.siguiente != None:
+                nodoActual = nodoActual.siguiente
+            nodoActual.siguiente = nodoNuevo  # Enlazar el actual al siguiente
 
     # Indicar la cantidad de elementos de la lista
     def contarElementos(self):
-        nNodos= 0       # Variable contadora donde se almacena el numero de nodos
-        nodo_actual = self.inicial
-        if nodo_actual == None:
-            return 0
-        while nodo_actual != None:
-            nodo_actual = nodo_actual.siguiente
-            nNodos = nNodos + 1
+        nNodos = 0  # Variable contadora donde se almacena el número de nodos
+        nodoActual = self.nodoInicial
+        while nodoActual != None:
+            nodoActual = nodoActual.siguiente
+            nNodos += 1
         return nNodos
-    
-    # Eliminar el ultimo elemento de la lista
+
+    # Eliminar el último elemento de la lista
     def eliminarUltimo(self):
-        nodo_actual = self.inicial
-        nodo_previo = None
-        if nodo_actual == None:
+        if self.estaVacia():
             return False
+        nodoActual = self.nodoInicial
+        nodoPrevio = None
+        while nodoActual.siguiente != None:
+            nodoPrevio = nodoActual
+            nodoActual = nodoActual.siguiente
+        if nodoPrevio is not None:
+            nodoPrevio.siguiente = None
         else:
-            while nodo_actual.siguiente != None:
-                nodo_previo = nodo_actual
-                nodo_actual = nodo_actual.siguiente
-            nodo_previo.siguiente = None
-        
-    # Indicar el numero de apariciones de un dato en la lista
+            self.nodoInicial = None
+        return True
+
+    # Indicar el número de apariciones de un dato en la lista
     def contarApariciones(self, dato):
-        nodo_actual = self.inicial
+        nodoActual = self.nodoInicial
         nApariciones = 0
-        if self.inicial == None:
-            return False    # Retorna false si la lista esta vacia
-        while nodo_actual != None:
-            if nodo_actual.dato == dato:
-                nApariciones = nApariciones + 1
-            nodo_actual = nodo_actual.siguiente     # Recorrido de la lista
+        if self.estaVacia():
+            return 0  # Retorna 0 si la lista está vacía
+        while nodoActual != None:
+            if nodoActual.dato == dato:
+                nApariciones += 1
+            nodoActual = nodoActual.siguiente  # Recorrido de la lista
         return nApariciones
 
+    # Indicar el elemento en una posición indicada de la lista, si existe.
     def indicarElemento(self, pos):
         cont = 0
-        nodo_actual = self.inicial
-        # Verificar si la lista esta vacia
-        if nodo_actual == None:
-            return False
-        # Recorrer la lista hasta la posicion deseada
-        while nodo_actual != None and cont < pos:
-            nodo_actual = nodo_actual.siguiente
-            cont = cont + 1
-        # Verificar si se alcanzo una posición valida
-        if nodo_actual == None:
-            return False  # Posicion fuera del rango
+        nodoActual = self.nodoInicial
+        # Verificar si la lista está vacía
+        if self.estaVacia():
+            return None
+        # Recorrer la lista hasta la posición deseada
+        while nodoActual != None and cont < pos:
+            nodoActual = nodoActual.siguiente
+            cont += 1
+        # Verificar si se alcanzó una posición válida
+        if nodoActual == None:
+            return None  # Posición fuera del rango
         else:
-            return nodo_actual.dato
-        
+            return nodoActual.dato
+
+    # Eliminar una posición indicada de la lista, si existe.
     def eliminarPosIndicada(self, pos):
         cont = 0
-        nodo_actual = self.inicial
-        nodo_previo = None
-        if nodo_actual == None:
+        nodoActual = self.nodoInicial
+        nodoPrevio = None
+        if self.estaVacia():
             return False
-        while nodo_actual != None and cont < pos:
-            nodo_previo = nodo_actual
-            nodo_actual = nodo_actual.siguiente
-            cont = cont + 1
-        if nodo_actual == None:
+        while nodoActual != None and cont < pos:
+            nodoPrevio = nodoActual
+            nodoActual = nodoActual.siguiente
+            cont += 1
+        if nodoActual == None:
             return False
         else:
-            nodo_previo.siguiente = nodo_actual.siguiente   # "salto"
-            return True 
-        
+            if nodoPrevio is None:  # Si estamos eliminando el primer nodo
+                self.nodoInicial = nodoActual.siguiente
+            else:
+                nodoPrevio.siguiente = nodoActual.siguiente   # "salto"
+            return True
+
     # Indicar las posiciones en las que aparece un dato en la lista
     def contarPosiciones(self, dato):
-        cont = 0 
+        cont = 0
         posiciones = []
-        nodo_actual = self.inicial
-        if nodo_actual == None:
-            return False
-        while nodo_actual != None:
-            if nodo_actual.dato == dato:
+        nodoActual = self.nodoInicial
+        if self.estaVacia():
+            return posiciones
+        while nodoActual != None:
+            if nodoActual.dato == dato:
                 posiciones.append(cont)
-            nodo_actual = nodo_actual.siguiente
-            cont = cont + 1
+            nodoActual = nodoActual.siguiente
+            cont += 1
         return posiciones
-            
-
+    
+    # Indicar el penultimo dato de la lista
+    def indicarPenultimo(self):
+        nodoActual = self.nodoInicial
+        nodoPrevio = None
+        if self.estaVacia():
+            return False
+        else:
+            while nodoActual.siguiente != None:
+                nodoPrevio = nodoActual
+                nodoActual = nodoActual.siguiente
+            return nodoPrevio.dato
         
-                                 
+    # Inidicar elementos entre dos posiciones SI posicion_inicial > posicion
+    def elementosEntrePosiciones(self, inicial, final):
+        nodoActual = self.nodoInicial
+        contador_inicio = 0
+        valores = []
+        if self.estaVacia():
+            return False
+        if inicial > final:
+            return False
+        # Avanzar hasta la pos inicial
+        while nodoActual is not None and contador_inicio < inicial:
+            nodoActual = nodoActual.siguiente
+            contador_inicio += 1
+        # Verificar pos inicial
+        if nodoActual is None:
+            return False
+        while nodoActual is not None and contador_inicio < final - 1:
+            nodoActual = nodoActual.siguiente
+            valores.append(nodoActual.dato)
+            contador_inicio += 1
+        return valores      # Retorno de los numeros entre posiciones
+    
+    # Eliminar todas las apariciones de un dato en la lista
+    def eliminarMultiplesApariciones(self, dato_eliminar):
+        if self.estaVacia():
+            return False
+    # Cuando el dato a eliminar está en el nodo inicial
+        while self.nodoInicial != None and self.nodoInicial.dato == dato_eliminar:
+            self.eliminarAlInicio()
+    # sino:
+        nodoActual = self.nodoInicial
+        nodoPrevio = None
+        while nodoActual != None:
+            if nodoActual.dato == dato_eliminar:
+                if nodoPrevio != None:
+                    nodoPrevio.siguiente = nodoActual.siguiente
+                # Mover el nodoActual al siguiente
+                nodoActual = nodoActual.siguiente
+            else:
+                nodoPrevio = nodoActual
+                nodoActual = nodoActual.siguiente
+        return True
+    
+    # Eliminar el elemento anterior del indicado por el usuario
+    def eliminarElementoAnterior(self, dato):
+        if self.estaVacia():
+            return False
+        nodoActual = self.nodoInicial
+        nodoPrevio = None
+        while nodoActual != None and nodoActual.siguiente != None:
+            if nodoActual.siguiente.dato == dato:
+                if nodoPrevio == None:
+                    # Cuando el nodo a eliminar es el nodo inicial
+                    self.eliminarAlInicio()
+                else:
+                    nodoPrevio.siguiente = nodoActual.siguiente
+                # Avanzar al siguiente nodo
+                nodoActual = nodoActual.siguiente
+            else:
+                nodoPrevio = nodoActual
+                nodoActual = nodoActual.siguiente    
+        return True
+    
+class NodoDoble(NodoSimple):
+    # Constuctor
+    def __init__(self, dato):
+        super().__init__(self, dato)
+        super.__init__(dato)
+        self.previo = None
+
+    def __eq__(self, other):
+        if not isinstance(other, NodoDoble):
+            return False 
+        return self.dato == other.dato
+
+# Clase ListaDoble
+class ListaDoble(ListaSimple):
+    # Constructor
+    def __init__(self) -> None:
+        super().__init__()
+
+    # Adicionar al inicio
+    def adicionarAlInicio(self, dato_nuevo):
+        nodoNuevo = NodoDoble(dato_nuevo)
+        if self.estaVacia():
+            self.nodoInicial = nodoNuevo
+        else:
+            nodoNuevo.siguiente = self.nodoInicial
+            self.nodoInicial.previo = nodoNuevo
+            self.nodoInicial = nodoNuevo
+
+    #Eliminar al inicio
+    def eliminarAlInicio(self):
+        if self.estaVacia():
+            return None
+        else:
+            dato = self.nodoInicial.dato
+            self.nodoInicial = self.nodoInicial.siguiente
+            if self.nodoInicial != None:
+                self.nodoInicial.previo = None
+            return dato
+
+    # Eliminar por información
+    def eliminarInfo(self, dato_eliminar):
+        if self.estaVacia():
+            return False
+        if self.nodoInicial.dato == dato_eliminar:
+            self.eliminarAlInicio()
+            return True
+        nodoActual = self.nodoInicial
+        while nodoActual != None and nodoActual.dato != dato_eliminar:
+            nodoActual = nodoActual.siguiente
+        if nodoActual == None:
+            return False
+        nodoPrevio = nodoActual.previo
+        if nodoActual.siguiente == None:
+            nodoPrevio.siguiente = None
+        else:
+            nodoPrevio.siguiente = nodoActual.siguiente
+            nodoSiguiente = nodoActual.siguiente
+            nodoSiguiente.previo = nodoPrevio
+

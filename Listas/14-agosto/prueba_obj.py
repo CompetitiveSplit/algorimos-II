@@ -11,34 +11,41 @@ from listas import *
 # print("Nodo 03: ", nodo_03)
 
 # Prueba de lista
-lista_01 = Lista()      # Creación de la lista
+lista_01 = ListaSimple()      # Creación de la lista
 
 lista_01.adicionarAlInicio(1)       # Adicionar elementos a lista
 lista_01.adicionarAlInicio(3.5)
-# lista_01.adicionarAlInicio("Hola")
+lista_01.adicionarAlInicio("Hola")
 lista_01.adicionarAlInicio(10) 
 lista_01.adicionarAlInicio(6) 
-lista_01.adicionarAlInicio(4) 
-lista_01.agregarAlFinal(4)
-lista_01.agregarAlFinal(4)
-lista_01.agregarAlFinal("text")
+lista_01.adicionarAlInicio(7)
+lista_01.adicionarAlInicio(10) 
+lista_01.adicionarAlInicio(12) 
+lista_01.adicionarAlInicio(7)
+lista_01.adicionarAlInicio(5)
+
+#lista_01.eliminarMultiplesApariciones(10)
+
+penultimo = lista_01.indicarPenultimo()
+print(f"El peultimo elemento de la lista es: {penultimo}")
 # Prueba agregar al final de la lista
-# lista_01.agregarAlFinal("lol")
-# lista_01.eliminarUltimo()
+lista_01.agregarAlFinal("lol")
+lista_01.eliminarUltimo()
 posicion = "x"
 print(f"elemento de la posicion {posicion}: {lista_01.indicarElemento(4)}")
 # Prueba contar elementos de la lista
 # lista_01.eliminarPosIndicada(4)
-print(f"el numero {posicion}, aparece en las posiciones: {lista_01.contarPosiciones(4)}")
-print(lista_01.contarElementos(), "elementos en la lista")
-
+print(f"el numero {posicion}, aparece en las posiciones: {lista_01.contarPosiciones(10)}")
+print(f"hay {lista_01.contarElementos()} elementos en la lista")
 # Prueba contar apariciones de un elemento
-buscar = 4
-print(f"el numero {buscar} aparece: {lista_01.contarApariciones(4)} veces")
+print(f"el numero {10} aparece: {lista_01.contarApariciones(10)} veces")
+
+print(f"test posiciones 2 > 5: {lista_01.elementosEntrePosiciones(2, 5)}")
 
 print("Lista: ", lista_01)      # Imprimir la lista
 
-
+lista_01.eliminarElementoAnterior(10)
+print("Lista: ", lista_01)      # Imprimir la lista
 
 
 # Prueba eliminar al incio
