@@ -267,7 +267,19 @@ class NodoDoble(NodoSimple):
             return False 
         return self.dato == other.dato
 
-# Clase ListaDoble
+# Clase Nodo Doble
+class NodoDoble(NodoSimple):
+    # Constructor
+    def __init__(self, dato):
+        super().__init__(dato)
+        self.previo = None
+
+    def __eq__(self, other):
+        if not isinstance(other, NodoDoble):
+            return False 
+        return self.dato == other.dato
+
+# Clase Lista Doble
 class ListaDoble(ListaSimple):
     # Constructor
     def __init__(self) -> None:
@@ -283,16 +295,26 @@ class ListaDoble(ListaSimple):
             self.nodoInicial.previo = nodoNuevo
             self.nodoInicial = nodoNuevo
 
-    #Eliminar al inicio
+    # Eliminar al inicio
     def eliminarAlInicio(self):
         if self.estaVacia():
             return None
         else:
             dato = self.nodoInicial.dato
             self.nodoInicial = self.nodoInicial.siguiente
-            if self.nodoInicial != None:
+            if self.nodoInicial is not None:
                 self.nodoInicial.previo = None
             return dato
+
+    # Imprimir la lista    
+    def __str__(self):
+        recorrido = ""
+        nodoActual = self.nodoInicial
+        while nodoActual is not None:
+            recorrido += str(nodoActual.dato) + " <-> "
+            nodoActual = nodoActual.siguiente
+        recorrido += "NULL"
+        return recorrido
 
     # Eliminar por información
     def eliminarInfo(self, dato_eliminar):
@@ -302,15 +324,40 @@ class ListaDoble(ListaSimple):
             self.eliminarAlInicio()
             return True
         nodoActual = self.nodoInicial
-        while nodoActual != None and nodoActual.dato != dato_eliminar:
+        while nodoActual is not None and nodoActual.dato != dato_eliminar:
             nodoActual = nodoActual.siguiente
-        if nodoActual == None:
+        if nodoActual is None:
             return False
         nodoPrevio = nodoActual.previo
-        if nodoActual.siguiente == None:
+        if nodoActual.siguiente is None:
             nodoPrevio.siguiente = None
         else:
             nodoPrevio.siguiente = nodoActual.siguiente
             nodoSiguiente = nodoActual.siguiente
             nodoSiguiente.previo = nodoPrevio
+        return True
 
+    # TALLER DE DESARROLLO (EXAMEN N1)
+    # Método para encontrar elementos exclusivos
+    def elementosExclusivos(self, lista1, lista2):
+        # Crear una lista vacía
+        listaExclusivos = ListaDoble()
+        nodoActual = lista1.nodoInicial
+        # Verificar que las listas no esten vacías
+        if lista1.estaVacia() or lista2.estaVacia():
+            return False    # Retornar False si alguna de las listas esta vacía
+        # Recorrer la primera lista
+        while nodoActual != None:
+            # Si el dato del nodo actual no esta en la segunda lista
+            if not lista2.buscar(nodoActual.dato):
+                # Adicionar el dato al inicio de listaExclusivos
+                listaExclusivos.adicionarAlInicio(nodoActual.dato)
+                # Avanzar
+            nodoActual = nodoActual.siguiente
+
+        nodoActual = lista2.nodoInicial     # Cabecera de la segunda lista
+        while nodoActual != None:
+            if not lista1.buscar(nodoActual.dato):
+                listaExclusivos.adicionarAlInicio(nodoActual.dato)
+            nodoActual = nodoActual.siguiente
+        return listaExclusivos      # Retorno de los elementos que no se repiten
